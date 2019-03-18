@@ -22,7 +22,7 @@ public class NewsUtilities {
     private NewsUtilities() {
     }
 
-    public static String fetchNewsDataResponce(String stringURL) {
+    public static String fetchNewsDataResponse(String stringURL) {
         URL url = createURL(stringURL);
         String jsonResponse = "";
 
@@ -47,6 +47,9 @@ public class NewsUtilities {
 
     private static String makeHTTPRequest(URL url) throws IOException {
         String jsonResponse = "";
+
+        if (url == null) return jsonResponse;
+
         InputStream inputStream = null;
         HttpURLConnection urlConnection=null;
         try {
