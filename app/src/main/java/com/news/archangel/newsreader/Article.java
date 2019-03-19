@@ -1,13 +1,13 @@
 package com.news.archangel.newsreader;
 
-public class NewsInfo {
+public class Article {
     private String title;
     private String description;
     private String urlToNews;
     private String urlToImage;
     private String time;
 
-    public NewsInfo(String title, String description, String urlToNews, String urlToImage, String time) {
+    public Article(String title, String description, String urlToNews, String urlToImage, String time) {
         this.title = title;
         this.description = description;
         this.urlToNews = urlToNews;

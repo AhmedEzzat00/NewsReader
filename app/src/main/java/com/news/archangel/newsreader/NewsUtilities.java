@@ -2,6 +2,10 @@ package com.news.archangel.newsreader;
 
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +26,7 @@ public class NewsUtilities {
     private NewsUtilities() {
     }
 
-    public static String fetchNewsDataResponse(String stringURL) {
+    public static List<Article> fetchNewsDataResponse(String stringURL) {
         URL url = createURL(stringURL);
         String jsonResponse = "";
 
@@ -32,7 +36,7 @@ public class NewsUtilities {
             e.printStackTrace();
         }
 
-        return jsonResponse;
+        return extractArticleFromJSON(jsonResponse);
     }
 
     private static URL createURL(String stringURL) {
@@ -95,5 +99,33 @@ public class NewsUtilities {
             }
         }
         return stringBuilder.toString();
+    }
+    
+    private static List<Article> extractArticleFromJSON(String jsonString)
+    {
+        List<Article> articlesList=new ArrayList<>();
+
+        //Extracting Data
+        try {
+            JSONObject root=new JSONObject(jsonString);
+            JSONArray articles=root.getJSONArray("articles");
+            for (int i=0;i<articles.length();i++)
+            {
+                JSONObject currentArticle=articles.getJSONObject(i);
+
+                //Article data
+                String title=currentArticle.optString("title");
+                String description=currentArticle.optString("description");
+                String siteULR=currentArticle.optString("url");
+                String imageURL= currentArticle.optString("urlToImage");
+                String time = currentArticle.optString("publishedAt");
+
+                //Constructing article
+                articlesList.add(new Article(title,description,siteULR,imageURL,time));
+            }
+        } catch (JSONException e) {
+            Log.e(LOG_TAG,"JSON Handling ERROR");
+        }
+        return articlesList;
     }
 }

@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.util.List;
+
 
 public class NewsActivity extends AppCompatActivity {
 
@@ -32,20 +34,21 @@ public class NewsActivity extends AppCompatActivity {
         new NewsAysc().execute(uriBuilder);
     }
 
-    private class NewsAysc extends AsyncTask< Uri.Builder, Void, String> {
+    private class NewsAysc extends AsyncTask< Uri.Builder, Void, List<Article>> {
 
         @Override
-        protected String doInBackground( Uri.Builder... uriBulider) {
+        protected List<Article> doInBackground(Uri.Builder... uriBulider) {
             String stringURl=uriBulider[0].toString();
             Log.e(LOG_TAG,stringURl);
-            String jsonResponse = NewsUtilities.fetchNewsDataResponse(stringURl);
-            return jsonResponse;
+
+            return NewsUtilities.fetchNewsDataResponse(stringURl);
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            TextView mTextView=findViewById(R.id.test);
-            mTextView.setText(s);
+        protected void onPostExecute(List<Article> articles) {
+
+            TextView mTextView= (TextView) findViewById(R.id.test);
+            mTextView.setText(articles.toString());
         }
     }
 }
