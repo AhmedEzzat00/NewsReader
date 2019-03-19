@@ -7,9 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,6 +20,8 @@ public class NewsActivity extends AppCompatActivity {
     //This Key is obtained from the site by register on it
     private static final String API_KEY =
             "c3810091c7844f18bf2ee02a762d90a0";
+    private  NewsAdapter adapter;
+    private  RecyclerView recyclerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +29,14 @@ public class NewsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Initialize the RecyclerView
-        RecyclerView recyclerList=findViewById(R.id.recycler_view);
+        recyclerList=findViewById(R.id.recycler_view);
         recyclerList.setHasFixedSize(true);
         LinearLayoutManager llm =new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerList.setLayoutManager(llm);
 
-
+        adapter=new NewsAdapter(new ArrayList<Article>());
+        recyclerList.setAdapter(adapter);
         new NewsAysc().execute(NEWS_API_REQUEST_URL);
     }
 
@@ -47,7 +48,6 @@ public class NewsActivity extends AppCompatActivity {
             //Building the URL of the API
             Uri baseUri = Uri.parse(urls[0]);
             Uri.Builder uriBuilder = baseUri.buildUpon();
-
             uriBuilder.appendQueryParameter("apiKey", API_KEY);
 
             return NewsUtilities.fetchNewsDataResponse(uriBuilder.toString());
@@ -56,8 +56,9 @@ public class NewsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<Article> articles) {
 
-          //  TextView mTextView = (TextView) findViewById(R.id.test);
-          //  mTextView.setText(articles.toString());
+            adapter= new NewsAdapter(articles);
+            recyclerList.setAdapter(adapter);
+
         }
     }
 }
