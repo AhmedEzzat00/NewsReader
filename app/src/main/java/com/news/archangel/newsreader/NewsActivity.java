@@ -30,6 +30,7 @@ public class NewsActivity extends AppCompatActivity {
 
         //Initialize the RecyclerView
         RecyclerView recyclerList=findViewById(R.id.recycler_view);
+        recyclerList.setHasFixedSize(true);
         LinearLayoutManager llm =new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerList.setLayoutManager(llm);
