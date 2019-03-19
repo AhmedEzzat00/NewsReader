@@ -54,11 +54,14 @@ public class NewsUtilities {
         HttpURLConnection urlConnection=null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
+            //Adding Timeout Conditions
+            urlConnection.setReadTimeout(3000);
+            urlConnection.setConnectTimeout(3000);
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
-
-            if (urlConnection.getResponseCode()==200)
+            //Check if the Response is OK
+            if (urlConnection.getResponseCode()==HttpURLConnection.HTTP_OK)
             {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse =readFromInputStream(inputStream);
