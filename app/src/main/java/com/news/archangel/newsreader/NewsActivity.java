@@ -4,7 +4,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -24,6 +27,13 @@ public class NewsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Initialize the RecyclerView
+        RecyclerView recyclerList=findViewById(R.id.recycler_view);
+        LinearLayoutManager llm =new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerList.setLayoutManager(llm);
+
 
         new NewsAysc().execute(NEWS_API_REQUEST_URL);
     }
@@ -45,8 +55,8 @@ public class NewsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<Article> articles) {
 
-            TextView mTextView = (TextView) findViewById(R.id.test);
-            mTextView.setText(articles.toString());
+          //  TextView mTextView = (TextView) findViewById(R.id.test);
+          //  mTextView.setText(articles.toString());
         }
     }
 }
