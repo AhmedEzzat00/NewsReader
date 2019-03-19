@@ -15,7 +15,7 @@ public class NewsActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = NewsActivity.class.getName();
     private static final String NEWS_API_REQUEST_URL =
-            "https://newsapi.org/v2/everything?q=bitcoin&apiKey=c3810091c7844f18bf2ee02a762d90a0";
+            "https://newsapi.org/v2/everything?q=bitcoin";
     //This Key is obtained from the site by register on it
     private static final String API_KEY =
             "c3810091c7844f18bf2ee02a762d90a0";
@@ -29,16 +29,15 @@ public class NewsActivity extends AppCompatActivity {
         Uri baseUri = Uri.parse(NEWS_API_REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
-      //  uriBuilder.appendQueryParameter("apiKey", API_KEY);
-
-        new NewsAysc().execute(uriBuilder);
+        uriBuilder.appendQueryParameter("apiKey", API_KEY);
+        new NewsAysc().execute( uriBuilder.toString());
     }
 
-    private class NewsAysc extends AsyncTask< Uri.Builder, Void, List<Article>> {
+    private class NewsAysc extends AsyncTask<String, Void, List<Article>> {
 
         @Override
-        protected List<Article> doInBackground(Uri.Builder... uriBulider) {
-            String stringURl=uriBulider[0].toString();
+        protected List<Article> doInBackground(String... urls) {
+            String stringURl=urls[0];
             Log.e(LOG_TAG,stringURl);
 
             return NewsUtilities.fetchNewsDataResponse(stringURl);
