@@ -25,28 +25,27 @@ public class NewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Building the URL of the API
-        Uri baseUri = Uri.parse(NEWS_API_REQUEST_URL);
-        Uri.Builder uriBuilder = baseUri.buildUpon();
-
-        uriBuilder.appendQueryParameter("apiKey", API_KEY);
-        new NewsAysc().execute( uriBuilder.toString());
+        new NewsAysc().execute(NEWS_API_REQUEST_URL);
     }
 
     private class NewsAysc extends AsyncTask<String, Void, List<Article>> {
 
         @Override
         protected List<Article> doInBackground(String... urls) {
-            String stringURl=urls[0];
-            Log.e(LOG_TAG,stringURl);
 
-            return NewsUtilities.fetchNewsDataResponse(stringURl);
+            //Building the URL of the API
+            Uri baseUri = Uri.parse(urls[0]);
+            Uri.Builder uriBuilder = baseUri.buildUpon();
+
+            uriBuilder.appendQueryParameter("apiKey", API_KEY);
+
+            return NewsUtilities.fetchNewsDataResponse(uriBuilder.toString());
         }
 
         @Override
         protected void onPostExecute(List<Article> articles) {
 
-            TextView mTextView= (TextView) findViewById(R.id.test);
+            TextView mTextView = (TextView) findViewById(R.id.test);
             mTextView.setText(articles.toString());
         }
     }
