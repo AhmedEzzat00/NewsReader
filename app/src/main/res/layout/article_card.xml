@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:orientation="vertical">
@@ -20,16 +21,19 @@
             <ImageView
                 android:id="@+id/image_view"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/image_height" />
+                android:layout_height="@dimen/image_height"
+                tools:src="#404044" />
 
             <TextView
                 android:id="@+id/title_textView"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/title_height" />
+                android:layout_height="@dimen/title_height"
+                tools:text="Square will offer its new crypto employees payment in Bitcoin and also this text must appear!" />
             <TextView
                 android:id="@+id/description_textView"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/description_height" />
+                android:layout_height="@dimen/description_height"
+                tools:text="The once-thriving resort city of in Mexico has become a somewhat lawless place. It is, in many ways, a perfect yet imperfect place for crypto-loving anarchists to gather each year." />
 
         </LinearLayout>
 
