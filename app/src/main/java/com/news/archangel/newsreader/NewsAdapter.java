@@ -1,12 +1,18 @@
 package com.news.archangel.newsreader;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -14,11 +20,13 @@ import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
+    private static final String LOG_TAG = NewsAdapter.class.getName();
     private List<Article> articlesList;
 
     NewsAdapter(List<Article> articlesList) {
         this.articlesList = articlesList;
     }
+
 
     static class NewsViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
@@ -37,18 +45,27 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         //inflate the cardView Layout
-        View itemView = LayoutInflater.from(parent.getContext())
+        final View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.article_card, parent, false);
+
         return new NewsViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-        Article article = articlesList.get(position);
+    public void onBindViewHolder(@NonNull NewsViewHolder holder, final int position) {
+        final Article article = articlesList.get(position);
 
         Picasso.get().load(article.getUrlToImage()).into(holder.imageView);
         holder.titleTextView.setText(article.getTitle());
         holder.descriptionTextView.setText(article.getDescription());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri articleSite = Uri.parse(article.getUrlToNews());
+                Intent webIntent = new Intent(Intent.ACTION_VIEW, articleSite);
+                v.getContext().startActivity(webIntent);
+            }
+        });
     }
 
 

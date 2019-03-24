@@ -46,6 +46,7 @@ public class NewsActivity extends AppCompatActivity {
 
         adapter=new NewsAdapter(new ArrayList<Article>());
         recyclerList.setAdapter(adapter);
+        //Go to the news site
         //Building the URL of the API
         Uri baseUri = Uri.parse(NEWS_API_REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
@@ -65,6 +66,7 @@ public class NewsActivity extends AppCompatActivity {
         Log.i(LOG_TAG, query);
         new NewsAysc().execute(uriBuilder.toString());
     }
+
 
     private class NewsAysc extends AsyncTask<String, Void, List<Article>> {
 
